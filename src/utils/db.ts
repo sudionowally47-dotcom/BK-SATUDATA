@@ -6,6 +6,16 @@ import {
 // KONFIGURASI BACKEND PERMANEN (Isi URL di sini agar tidak hilang saat hapus history)
 const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec"; 
 
+// Helper untuk format tanggal Indonesia
+function formatTanggalIndonesia(): string {
+  const now = new Date();
+  const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][now.getDay()];
+  const tanggal = now.getDate();
+  const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][now.getMonth()];
+  const tahun = now.getFullYear();
+  return `${hari}, ${tanggal} ${bulan} ${tahun}`;
+}
+
 // Mock/Initial Data
 const DEFAULT_IDENTITAS: IdentitasSekolah = {
   namaSekolah: "SMP NEGERI 4 FAKFAK",
@@ -16,7 +26,7 @@ const DEFAULT_IDENTITAS: IdentitasSekolah = {
   kepalaSekolah: "H. Abdul Rahman S.Pd., M.Pd.",
   nipKepalaSekolah: "197204181998021004",
   tempatTandaTangan: "Fakfak",
-  tanggalDokumen: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+  tanggalDokumen: formatTanggalIndonesia(),
   logoUrl: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=150&auto=format&fit=crop&q=60", 
   kopSuratUrl: "",
   adminPassword: "admin55"
