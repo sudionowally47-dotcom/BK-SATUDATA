@@ -33,8 +33,8 @@ const DEFAULT_IDENTITAS: IdentitasSekolah = {
 };
 
 const DEFAULT_SISWA: Siswa[] = [
-  { id: "0098234121", nisn: "0098234121", namaSiswa: "Ahmad Rifai Uswanas", kelas: "IX-A", jk: "L", agama: "Islam", orangTua: "Husein Uswanas", alamat: "Jl. Wagom Pantai, Fakfak", noHp: "085244556[...[...]
-  { id: "0108765432", nisn: "0108765432", namaSiswa: "Dian Safitri Gewab", kelas: "VIII-B", jk: "P", agama: "Islam", orangTua: "Musa Gewab", alamat: "Sekru, Distrik Fakfak Tengah", noHp: "08234477[...[...]
+  { id: "0098234121", nisn: "0098234121", namaSiswa: "Ahmad Rifai Uswanas", kelas: "IX-A", jk: "L", agama: "Islam", orangTua: "Husein Uswanas", alamat: "Jl. Wagom Pantai, Fakfak", noHp: "085244556789" },
+  { id: "0108765432", nisn: "0108765432", namaSiswa: "Dian Safitri Gewab", kelas: "VIII-B", jk: "P", agama: "Islam", orangTua: "Musa Gewab", alamat: "Sekru, Distrik Fakfak Tengah", noHp: "082344778899" }
 ];
 
 const DEFAULT_GURU: GuruBK[] = [
@@ -106,7 +106,7 @@ export const DB = {
   getIdentitas(): IdentitasSekolah {
     const data = getStoredData<IdentitasSekolah>('identitas', DEFAULT_IDENTITAS);
     // Format ulang tanggalDokumen jika berbentuk ISO string
-    if (data.tanggalDokumen && data.tanggalDokumen.includes('T')) {
+    if (data.tanggalDokumen && typeof data.tanggalDokumen === 'string' && data.tanggalDokumen.includes('T')) {
       data.tanggalDokumen = formatTanggalIndonesia(data.tanggalDokumen);
     }
     return data;
@@ -116,7 +116,7 @@ export const DB = {
     // Pastikan tanggalDokumen selalu dalam format Indonesia
     const processedData = {
       ...data,
-      tanggalDokumen: data.tanggalDokumen.includes('T') 
+      tanggalDokumen: typeof data.tanggalDokumen === 'string' && data.tanggalDokumen.includes('T') 
         ? formatTanggalIndonesia(data.tanggalDokumen) 
         : data.tanggalDokumen
     };
