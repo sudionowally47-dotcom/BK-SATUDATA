@@ -23,8 +23,8 @@ const DEFAULT_IDENTITAS: IdentitasSekolah = {
 };
 
 const DEFAULT_SISWA: Siswa[] = [
-  { id: "0098234121", nisn: "0098234121", namaSiswa: "Ahmad Rifai Uswanas", kelas: "IX-A", jk: "L", agama: "Islam", orangTua: "Husein Uswanas", alamat: "Jl. Wagom Pantai, Fakfak", noHp: "085244556[...]
-  { id: "0108765432", nisn: "0108765432", namaSiswa: "Dian Safitri Gewab", kelas: "VIII-B", jk: "P", agama: "Islam", orangTua: "Musa Gewab", alamat: "Sekru, Distrik Fakfak Tengah", noHp: "08234477[...]
+  { id: "0098234121", nisn: "0098234121", namaSiswa: "Ahmad Rifai Uswanas", kelas: "IX-A", jk: "L", agama: "Islam", orangTua: "Husein Uswanas", alamat: "Jl. Wagom Pantai, Fakfak", noHp: "085244556[...[...]
+  { id: "0108765432", nisn: "0108765432", namaSiswa: "Dian Safitri Gewab", kelas: "VIII-B", jk: "P", agama: "Islam", orangTua: "Musa Gewab", alamat: "Sekru, Distrik Fakfak Tengah", noHp: "08234477[...[...]
 ];
 
 const DEFAULT_GURU: GuruBK[] = [
@@ -341,7 +341,7 @@ export const DB = {
     setStoredData(moduleKey, []);
     const sheetsMap: Record<string, string[]> = {
       siswa: ['Siswa'], guru: ['GuruBK'], kelas: ['Kelas'],
-      layanan: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Kons[...]
+      layanan: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif'],
       asesmen: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat'],
       surat: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan'],
       jadwal: ['Jadwal_Konseling'], kasus: ['Buku_Kasus'], homevisit: ['Home_Visit']
@@ -371,7 +371,7 @@ export const DB = {
     }
 
     const groups = [
-      { key: 'layanan', sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individua[...]
+      { key: 'layanan', sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif'] },
       { key: 'asesmen', sheets: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat'] },
       { key: 'surat', sheets: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan'] }
     ];
