@@ -3,10 +3,8 @@ import {
   AsesmenSiswa, SuratBK, JadwalKonseling, BukuKasus, HomeVisit 
 } from '../types';
 
-// KONFIGURASI BACKEND PERMANEN (Isi URL di sini agar tidak hilang saat hapus history)
-const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec"; 
+const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec";
 
-// Helper untuk format tanggal Indonesia
 function formatTanggalIndonesia(date?: Date | string): string {
   const now = date ? new Date(date) : new Date();
   const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][now.getDay()];
@@ -16,7 +14,6 @@ function formatTanggalIndonesia(date?: Date | string): string {
   return `${hari}, ${tanggal} ${bulan} ${tahun}`;
 }
 
-// Mock/Initial Data
 const DEFAULT_IDENTITAS: IdentitasSekolah = {
   namaSekolah: "SMP NEGERI 4 FAKFAK",
   npsn: "60204123",
@@ -27,7 +24,7 @@ const DEFAULT_IDENTITAS: IdentitasSekolah = {
   nipKepalaSekolah: "197204181998021004",
   tempatTandaTangan: "Fakfak",
   tanggalDokumen: formatTanggalIndonesia(),
-  logoUrl: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=150&auto=format&fit=crop&q=60", 
+  logoUrl: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=150&auto=format&fit=crop&q=60",
   kopSuratUrl: "",
   adminPassword: "admin55"
 };
@@ -67,7 +64,6 @@ const DEFAULT_KELAS: Kelas[] = [
   { id: "IX-A", namaKelas: "IX-A", tingkat: "IX", waliKelas: "Wa Ode Nurhayati, S.Pd." }
 ];
 
-// Helper to check and retrieve local storage data
 function getStoredData<T>(key: string, defaultValue: T): T {
   const stored = localStorage.getItem(`bk_satudata_${key}`);
   if (!stored) {
@@ -125,7 +121,6 @@ export const DB = {
 
   getIdentitas(): IdentitasSekolah {
     const data = getStoredData<IdentitasSekolah>('identitas', DEFAULT_IDENTITAS);
-    // Format ulang tanggalDokumen jika berbentuk ISO string
     if (data.tanggalDokumen && typeof data.tanggalDokumen === 'string' && data.tanggalDokumen.includes('T')) {
       data.tanggalDokumen = formatTanggalIndonesia(data.tanggalDokumen);
     }
@@ -133,11 +128,10 @@ export const DB = {
   },
 
   saveIdentitas(data: IdentitasSekolah): void {
-    // Pastikan tanggalDokumen selalu dalam format Indonesia
     const processedData = {
       ...data,
-      tanggalDokumen: typeof data.tanggalDokumen === 'string' && data.tanggalDokumen.includes('T') 
-        ? formatTanggalIndonesia(data.tanggalDokumen) 
+      tanggalDokumen: typeof data.tanggalDokumen === 'string' && data.tanggalDokumen.includes('T')
+        ? formatTanggalIndonesia(data.tanggalDokumen)
         : data.tanggalDokumen
     };
     setStoredData('identitas', processedData);
@@ -382,11 +376,15 @@ export const DB = {
   resetModule(moduleKey: string) {
     setStoredData(moduleKey, []);
     const sheetsMap: Record<string, string[]> = {
-      siswa: ['Siswa'], guru: ['GuruBK'], kelas: ['Kelas'],
+      siswa: ['Siswa'],
+      guru: ['GuruBK'],
+      kelas: ['Kelas'],
       layanan: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif'],
       asesmen: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat'],
       surat: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan'],
-      jadwal: ['Jadwal_Konseling'], kasus: ['Buku_Kasus'], homevisit: ['Home_Visit']
+      jadwal: ['Jadwal_Konseling'],
+      kasus: ['Buku_Kasus'],
+      homevisit: ['Home_Visit']
     };
     (sheetsMap[moduleKey] || []).forEach(name => this.requestGAS('resetModule', { moduleName: name }).catch(() => {}));
   },
@@ -402,8 +400,12 @@ export const DB = {
     } catch (e) {}
 
     const base = [
-      { key: 'siswa', s: 'Siswa' }, { key: 'guru', s: 'GuruBK' }, { key: 'kelas', s: 'Kelas' },
-      { key: 'jadwal', s: 'Jadwal_Konseling' }, { key: 'kasus', s: 'Buku_Kasus' }, { key: 'homevisit', s: 'Home_Visit' }
+      { key: 'siswa', s: 'Siswa' },
+      { key: 'guru', s: 'GuruBK' },
+      { key: 'kelas', s: 'Kelas' },
+      { key: 'jadwal', s: 'Jadwal_Konseling' },
+      { key: 'kasus', s: 'Buku_Kasus' },
+      { key: 'homevisit', s: 'Home_Visit' }
     ];
     for (const m of base) {
       try {
@@ -413,9 +415,18 @@ export const DB = {
     }
 
     const groups = [
-      { key: 'layanan', sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif'] },
-      { key: 'asesmen', sheets: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat'] },
-      { key: 'surat', sheets: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan'] }
+      {
+        key: 'layanan',
+        sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif']
+      },
+      {
+        key: 'asesmen',
+        sheets: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat']
+      },
+      {
+        key: 'surat',
+        sheets: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan']
+      }
     ];
     for (const g of groups) {
       let combined: any[] = [];
