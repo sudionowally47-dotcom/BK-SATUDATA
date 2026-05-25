@@ -4,7 +4,7 @@ import {
 } from '../types';
 
 // KONFIGURASI BACKEND PERMANEN (Isi URL di sini agar tidak hilang saat hapus history)
-const FIXED_GAS_URL = ""; 
+const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec"; 
 
 // Mock/Initial Data
 const DEFAULT_IDENTITAS: IdentitasSekolah = {
