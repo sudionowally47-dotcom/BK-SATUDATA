@@ -17,6 +17,7 @@ const DEFAULT_IDENTITAS: IdentitasSekolah = {
   nipKepalaSekolah: "197204181998021004",
   tempatTandaTangan: "Fakfak",
   tanggalDokumen: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+  tanggalDokumen: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
   logoUrl: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=150&auto=format&fit=crop&q=60", 
   kopSuratUrl: "",
   adminPassword: "admin55"
