@@ -469,7 +469,7 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-405 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
-                  {isAddModalOpen ? (
+                  {!isEditModalOpen ? (
                     <select 
                       value={formData.nisn}
                       onChange={(e) => handleStudentChange(e.target.value)}
