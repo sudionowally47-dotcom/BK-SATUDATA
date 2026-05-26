@@ -67,6 +67,17 @@ const DEFAULT_SISWA: Siswa[] = [
     orangTua: "Musa Gewab",
     alamat: "Sekru, Distrik Fakfak Tengah",
     noHp: "082344778899"
+  },
+  {
+    id: "3101267876",
+    nisn: "3101267876",
+    namaSiswa: "ABD ARMAN WORETMA",
+    kelas: "IX-A",
+    jk: "L",
+    agama: "Islam",
+    orangTua: "Arman Woretma",
+    alamat: "Wagom, Fakfak",
+    noHp: "085244556789"
   }
 ];
 

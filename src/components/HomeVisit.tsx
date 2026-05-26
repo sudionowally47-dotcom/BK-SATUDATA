@@ -122,15 +122,22 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   };
 
   const handleStudentChange = (nisn: string) => {
+    if (!nisn) return;
     const s = siswa.find(x => x.nisn === nisn);
     if (s) {
-      setFormData(prev => ({
-        ...prev,
+      setFormData({
+        tanggalKunjungan: formData.tanggalKunjungan,
         nisn: s.nisn,
         namaSiswa: s.namaSiswa,
         kelas: s.kelas,
-        alamat: s.alamat
-      }));
+        petugas: formData.petugas,
+        tujuanKunjungan: formData.tujuanKunjungan,
+        alamat: s.alamat,
+        temuan: formData.temuan,
+        rekomendasi: formData.rekomendasi,
+        dokumentasiNama: formData.dokumentasiNama,
+        dokumentasiUrl: formData.dokumentasiUrl
+      });
     }
   };
 
@@ -471,7 +478,8 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-405 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
                   <select 
-                    value={formData.nisn || ''}
+                    key={`select-${formData.nisn}`}
+                    value={formData.nisn}
                     onChange={(e) => handleStudentChange(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
