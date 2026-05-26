@@ -487,7 +487,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
       {/* Add/Edit Modal */}
       {(isAddModalOpen || isEditModalOpen) && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl shadow-xl overflow-visible animate-in fade-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/40 dark:bg-slate-950/20">
               <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-lg">
                 {isAddModalOpen ? 'Tambah Kasus Siswa' : 'Ubah Data Kasus'}
@@ -500,7 +500,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
               </button>
             </div>
 
-            <form onSubmit={isAddModalOpen ? handleSaveAdd : handleSaveEdit} className="p-6 space-y-4 max-h-[420px] overflow-y-auto custom-scrollbar">
+            <form onSubmit={isAddModalOpen ? handleSaveAdd : handleSaveEdit} className="p-6 space-y-4 max-h-[420px] overflow-y-auto custom-scrollbar relative z-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Tanggal Pelaporan*</label>
