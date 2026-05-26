@@ -68,11 +68,12 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   const resetForm = () => {
+    const firstStudent = siswa && siswa.length > 0 ? siswa[0] : null;
     setFormData({
       tanggal: new Date().toISOString().split('T')[0],
-      nisn: siswa[0]?.nisn || '',
-      namaSiswa: siswa[0]?.namaSiswa || '',
-      kelas: siswa[0]?.kelas || '',
+      nisn: firstStudent?.nisn || '',
+      namaSiswa: firstStudent?.namaSiswa || '',
+      kelas: firstStudent?.kelas || '',
       jenisKasus: 'Kasus Ringan',
       status: 'Dalam Proses',
       deskripsiKasus: '',
@@ -113,11 +114,13 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
         namaSiswa: s.namaSiswa,
         kelas: s.kelas
       }));
+      console.log("Student changed:", s);
     }
   };
 
   const handleSaveAdd = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form data before save:", formData);
     if (!formData.deskripsiKasus.trim() || !formData.tindakLanjut.trim()) {
       triggerNotification("Deskripsi kasus dan tindak lanjut wajib diisi!", "error");
       return;
@@ -515,14 +518,19 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
                   <select 
-                    value={formData.nisn}
-                    onChange={(e) => handleStudentChange(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350 appearance-none cursor-pointer"
+                    value={formData.nisn || ''}
+                    onChange={(e) => {
+                      const nisn = e.target.value;
+                      handleStudentChange(nisn);
+                    }}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >
                     <option value="">-- Pilih Siswa --</option>
-                    {siswa && siswa.length > 0 && siswa.map(s => (
-                      <option key={s.nisn} value={s.nisn}>{s.namaSiswa} - {s.kelas}</option>
+                    {siswa && siswa.map(s => (
+                      <option key={s.nisn} value={s.nisn}>
+                        {s.namaSiswa} - {s.kelas}
+                      </option>
                     ))}
                   </select>
                 </div>
