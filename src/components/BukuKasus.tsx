@@ -519,7 +519,6 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                     onChange={(e) => handleStudentChange(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
-                    disabled={isEditModalOpen}
                   >
                     <option value="" disabled>-- Pilih Siswa --</option>
                     {siswa.map(s => (
