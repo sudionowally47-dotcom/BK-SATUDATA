@@ -6,15 +6,28 @@ import {
 const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec";
 
 /**
- * Format tanggal ke format Indonesia tanpa nama hari
+ * Format tanggal ke format Indonesia: tanggal bulan tahun (tanpa nama hari)
  * Contoh: 24 Mei 2026
  */
-function formatTanggalIndonesia(date?: Date | string): string {
+export function formatTanggalIndonesia(date?: Date | string): string {
   const now = date ? new Date(date) : new Date();
   const tanggal = now.getDate();
   const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][now.getMonth()];
   const tahun = now.getFullYear();
   return `${tanggal} ${bulan} ${tahun}`;
+}
+
+/**
+ * Format tanggal untuk ditampilkan di tabel (format input date YYYY-MM-DD ke format Indonesia)
+ * Contoh: 2026-05-24 -> 24 Mei 2026
+ */
+export function formatTanggalTabel(dateString: string): string {
+  if (!dateString) return '-';
+  try {
+    return formatTanggalIndonesia(new Date(dateString + 'T00:00:00'));
+  } catch {
+    return dateString;
+  }
 }
 
 const DEFAULT_IDENTITAS: IdentitasSekolah = {
