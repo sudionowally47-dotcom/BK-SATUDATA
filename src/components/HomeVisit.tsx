@@ -469,18 +469,23 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-405 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
-                  <select 
-                    value={formData.nisn}
-                    onChange={(e) => handleStudentChange(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
-                    required
-                    disabled={isEditModalOpen}
-                  >
-                    <option value="" disabled>-- Pilih Siswa --</option>
-                    {siswa.map(s => (
-                      <option key={s.id} value={s.nisn}>{s.namaSiswa} - Kelas {s.kelas}</option>
-                    ))}
-                  </select>
+                  {isAddModalOpen ? (
+                    <select 
+                      value={formData.nisn}
+                      onChange={(e) => handleStudentChange(e.target.value)}
+                      className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
+                      required
+                    >
+                      <option value="" disabled>-- Pilih Siswa --</option>
+                      {siswa.map(s => (
+                        <option key={s.id} value={s.nisn}>{s.namaSiswa} - Kelas {s.kelas}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <div className="text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-705 dark:text-slate-350">
+                      {formData.namaSiswa} - Kelas {formData.kelas}
+                    </div>
+                  )}
                 </div>
               </div>
 
