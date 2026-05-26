@@ -81,25 +81,24 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
-  const resetForm = () => {
-    const firstStudent = siswa && siswa.length > 0 ? siswa[0] : null;
-    setFormData({
-      tanggalKunjungan: new Date().toISOString().split('T')[0],
-      nisn: firstStudent?.nisn || '',
-      namaSiswa: firstStudent?.namaSiswa || '',
-      kelas: firstStudent?.kelas || '',
-      petugas: 'Marlina Gewab, S.Psi.',
-      tujuanKunjungan: '',
-      alamat: firstStudent?.alamat || '',
-      temuan: '',
-      rekomendasi: '',
-      dokumentasiNama: '',
-      dokumentasiUrl: ''
-    });
-  };
-
   const handleOpenAdd = () => {
-    resetForm();
+    // Reset form dengan siswa pertama
+    if (siswa.length > 0) {
+      const first = siswa[0];
+      setFormData({
+        tanggalKunjungan: new Date().toISOString().split('T')[0],
+        nisn: first.nisn,
+        namaSiswa: first.namaSiswa,
+        kelas: first.kelas,
+        petugas: 'Marlina Gewab, S.Psi.',
+        tujuanKunjungan: '',
+        alamat: first.alamat,
+        temuan: '',
+        rekomendasi: '',
+        dokumentasiNama: '',
+        dokumentasiUrl: ''
+      });
+    }
     setIsAddModalOpen(true);
   };
 
@@ -119,27 +118,6 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
       dokumentasiUrl: v.dokumentasiUrl || ''
     });
     setIsEditModalOpen(true);
-  };
-
-  const handleStudentChange = (nisn: string) => {
-    if (!nisn) return;
-    const s = siswa?.find(x => x.nisn === nisn);
-    if (s) {
-      console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
-      setFormData({
-        tanggalKunjungan: formData.tanggalKunjungan,
-        nisn: s.nisn || '',
-        namaSiswa: s.namaSiswa || '',
-        kelas: s.kelas || '',
-        petugas: formData.petugas,
-        tujuanKunjungan: formData.tujuanKunjungan,
-        alamat: s.alamat || '',
-        temuan: formData.temuan,
-        rekomendasi: formData.rekomendasi,
-        dokumentasiNama: formData.dokumentasiNama,
-        dokumentasiUrl: formData.dokumentasiUrl
-      });
-    }
   };
 
   const handleSaveAdd = (e: React.FormEvent) => {
@@ -480,7 +458,25 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-405 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
                   <select 
                     value={formData.nisn}
-                    onChange={(e) => handleStudentChange(e.target.value)}
+                    onChange={(e) => {
+                      const nisn = e.target.value;
+                      const s = siswa.find(x => x.nisn === nisn);
+                      if (s) {
+                        setFormData({
+                          tanggalKunjungan: formData.tanggalKunjungan,
+                          nisn: s.nisn,
+                          namaSiswa: s.namaSiswa,
+                          kelas: s.kelas,
+                          petugas: formData.petugas,
+                          tujuanKunjungan: formData.tujuanKunjungan,
+                          alamat: s.alamat,
+                          temuan: formData.temuan,
+                          rekomendasi: formData.rekomendasi,
+                          dokumentasiNama: formData.dokumentasiNama,
+                          dokumentasiUrl: formData.dokumentasiUrl
+                        });
+                      }
+                    }}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >

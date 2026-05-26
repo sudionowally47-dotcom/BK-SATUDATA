@@ -53,7 +53,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
     buktiUrl: ''
   });
 
-  const filteredData = kasus.filter(k => {
+  const filteredData = kasus.filter((k: BukuKasus) => {
     const matchesSearch = 
       k.namaSiswa.toLowerCase().includes(searchTerm.toLowerCase()) ||
       k.nisn.includes(searchTerm) ||
@@ -67,24 +67,23 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
-  const resetForm = () => {
-    const firstStudent = siswa && siswa.length > 0 ? siswa[0] : null;
-    setFormData({
-      tanggal: new Date().toISOString().split('T')[0],
-      nisn: firstStudent?.nisn || '',
-      namaSiswa: firstStudent?.namaSiswa || '',
-      kelas: firstStudent?.kelas || '',
-      jenisKasus: 'Kasus Ringan',
-      status: 'Dalam Proses',
-      deskripsiKasus: '',
-      tindakLanjut: '',
-      buktiNama: '',
-      buktiUrl: ''
-    });
-  };
-
   const handleOpenAdd = () => {
-    resetForm();
+    // Reset form dengan siswa pertama
+    if (siswa.length > 0) {
+      const first = siswa[0];
+      setFormData({
+        tanggal: new Date().toISOString().split('T')[0],
+        nisn: first.nisn,
+        namaSiswa: first.namaSiswa,
+        kelas: first.kelas,
+        jenisKasus: 'Kasus Ringan',
+        status: 'Dalam Proses',
+        deskripsiKasus: '',
+        tindakLanjut: '',
+        buktiNama: '',
+        buktiUrl: ''
+      });
+    }
     setIsAddModalOpen(true);
   };
 
@@ -105,27 +104,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
     setIsEditModalOpen(true);
   };
 
-  const handleStudentChange = (nisn: string) => {
-    if (!nisn) return;
-    const s = siswa?.find(x => x.nisn === nisn);
-    if (s) {
-      console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
-      setFormData({
-        tanggal: formData.tanggal,
-        nisn: s.nisn || '',
-        namaSiswa: s.namaSiswa || '',
-        kelas: s.kelas || '',
-        jenisKasus: formData.jenisKasus,
-        status: formData.status,
-        deskripsiKasus: formData.deskripsiKasus,
-        tindakLanjut: formData.tindakLanjut,
-        buktiNama: formData.buktiNama,
-        buktiUrl: formData.buktiUrl
-      });
-    }
-  };
-
-  const handleSaveAdd = (e: React.FormEvent) => {
+  const handleSaveAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.deskripsiKasus.trim() || !formData.tindakLanjut.trim()) {
       triggerNotification("Deskripsi kasus dan tindak lanjut wajib diisi!", "error");
@@ -136,7 +115,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
     triggerNotification("Kasus siswa berhasil ditambahkan!", "success");
   };
 
-  const handleSaveEdit = (e: React.FormEvent) => {
+  const handleSaveEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!currentKasus) return;
     if (!formData.deskripsiKasus.trim() || !formData.tindakLanjut.trim()) {
@@ -330,7 +309,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
             type="text" 
             placeholder="Cari siswa, NISN, deskripsi..." 
             value={searchTerm} 
-            onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearchTerm(e.target.value); setCurrentPage(1); }} 
             className="w-full pl-10 pr-4 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-205"
           />
         </div>
@@ -338,7 +317,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
         {/* Filter Tingkat Kasus */}
         <select 
           value={filterSeverity} 
-          onChange={(e) => { setFilterSeverity(e.target.value); setCurrentPage(1); }}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setFilterSeverity(e.target.value); setCurrentPage(1); }}
           className="px-4 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
         >
           <option value="">Semua Tingkat Kasus</option>
@@ -350,7 +329,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
         {/* Filter Status */}
         <select 
           value={filterStatus} 
-          onChange={(e) => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setFilterStatus(e.target.value); setCurrentPage(1); }}
           className="px-4 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
         >
           <option value="">Semua Status Penanganan</option>
@@ -386,7 +365,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   </td>
                 </tr>
               ) : (
-                paginatedData.map((k, index) => {
+                paginatedData.map((k: BukuKasus, index: number) => {
                   const no = startIndex + index + 1;
                   return (
                     <tr key={k.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
@@ -516,7 +495,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   <input 
                     type="date"
                     value={formData.tanggal}
-                    onChange={(e) => setFormData({...formData, tanggal: e.target.value})}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, tanggal: e.target.value})}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-850 dark:text-slate-200"
                     required
                   />
@@ -525,7 +504,24 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
                   <select 
                     value={formData.nisn}
-                    onChange={(e) => handleStudentChange(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      const nisn = e.target.value;
+                      const s = siswa.find((x: Siswa) => x.nisn === nisn);
+                      if (s) {
+                        setFormData({
+                          tanggal: formData.tanggal,
+                          nisn: s.nisn,
+                          namaSiswa: s.namaSiswa,
+                          kelas: s.kelas,
+                          jenisKasus: formData.jenisKasus,
+                          status: formData.status,
+                          deskripsiKasus: formData.deskripsiKasus,
+                          tindakLanjut: formData.tindakLanjut,
+                          buktiNama: formData.buktiNama,
+                          buktiUrl: formData.buktiUrl
+                        });
+                      }
+                    }}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >
@@ -542,7 +538,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Klasifikasi Kasus*</label>
                   <select 
                     value={formData.jenisKasus}
-                    onChange={(e) => setFormData({...formData, jenisKasus: e.target.value})}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({...formData, jenisKasus: e.target.value})}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >
@@ -555,7 +551,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Status Penanganan*</label>
                   <select 
                     value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value as any})}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({...formData, status: e.target.value as 'Dalam Proses' | 'Selesai' | 'Dirujuk'})}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >
@@ -570,7 +566,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                 <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Deskripsi Kasus / Masalah*</label>
                 <textarea 
                   value={formData.deskripsiKasus}
-                  onChange={(e) => setFormData({...formData, deskripsiKasus: e.target.value})}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({...formData, deskripsiKasus: e.target.value})}
                   rows={3}
                   className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-850 dark:text-slate-200"
                   placeholder="Detail kejadian kasus, kronologi, saksi, dan dampak perilaku siswa."
@@ -582,7 +578,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                 <label className="block text-xs font-bold text-slate-455 dark:text-slate-400 uppercase tracking-wider mb-1.5">Tindak Lanjut / Penyelesaian*</label>
                 <textarea 
                   value={formData.tindakLanjut}
-                  onChange={(e) => setFormData({...formData, tindakLanjut: e.target.value})}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({...formData, tindakLanjut: e.target.value})}
                   rows={3}
                   className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-850 dark:text-slate-205"
                   placeholder="Konseling yang diberikan, pembuatan surat pernyataan, sanksi edukatif, alih tangan kasus."
