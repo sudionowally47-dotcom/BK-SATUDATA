@@ -5,6 +5,7 @@ import {
   Calendar, Award, CheckSquare, ClipboardList, Plus
 } from 'lucide-react';
 import { Siswa, GuruBK, Kelas, LayananBK, AsesmenSiswa, SuratBK, JadwalKonseling, BukuKasus, HomeVisit, IdentitasSekolah } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface LaporanProps {
   siswa: Siswa[];
@@ -132,32 +133,32 @@ export const Laporan: React.FC<LaporanProps> = ({
     } else if (selectedModul === 'layanan') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Jenis Layanan</th><th>Nama Siswa</th><th>Kelas</th><th>Jurnal Layanan</th></tr>`;
       tableRowsHtml = (reportData as LayananBK[]).map((l, idx) => `
-        <tr><td>${idx + 1}</td><td>${l.tanggal}</td><td>${l.jenisLayanan}</td><td>${l.namaSiswa}</td><td>${l.kelas}</td><td>${l.uraian}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(l.tanggal)}</td><td>${l.jenisLayanan}</td><td>${l.namaSiswa}</td><td>${l.kelas}</td><td>${l.uraian}</td></tr>
       `).join('');
     } else if (selectedModul === 'asesmen') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th><th>Kategori Asesmen</th><th>Hasil Analisis</th></tr>`;
       tableRowsHtml = (reportData as AsesmenSiswa[]).map((a, idx) => `
-        <tr><td>${idx + 1}</td><td>${a.tanggal}</td><td>${a.namaSiswa}</td><td>${a.kelas}</td><td>${a.jenisAsesmen}</td><td>${a.hasil}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(a.tanggal)}</td><td>${a.namaSiswa}</td><td>${a.kelas}</td><td>${a.jenisAsesmen}</td><td>${a.hasil}</td></tr>
       `).join('');
     } else if (selectedModul === 'surat') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Nomor Surat</th><th>Jenis Surat</th><th>Siswa</th><th>Kelas</th></tr>`;
       tableRowsHtml = (reportData as SuratBK[]).map((s, idx) => `
-        <tr><td>${idx + 1}</td><td>${s.tanggal}</td><td>${s.nomorSurat}</td><td>${s.jenisSurat}</td><td>${s.namaSiswa}</td><td>${s.kelas}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(s.tanggal)}</td><td>${s.nomorSurat}</td><td>${s.jenisSurat}</td><td>${s.namaSiswa}</td><td>${s.kelas}</td></tr>
       `).join('');
     } else if (selectedModul === 'jadwal') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Waktu</th><th>Siswa</th><th>Kelas</th><th>Guru BK</th><th>Tipe</th><th>Status</th></tr>`;
       tableRowsHtml = (reportData as JadwalKonseling[]).map((j, idx) => `
-        <tr><td>${idx + 1}</td><td>${j.tanggal}</td><td>${j.waktu}</td><td>${j.namaSiswa}</td><td>${j.kelas}</td><td>${j.namaGuru}</td><td>${j.tipeKonseling}</td><td>${j.statusKehadiran}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(j.tanggal)}</td><td>${j.waktu}</td><td>${j.namaSiswa}</td><td>${j.kelas}</td><td>${j.namaGuru}</td><td>${j.tipeKonseling}</td><td>${j.statusKehadiran}</td></tr>
       `).join('');
     } else if (selectedModul === 'kasus') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th><th>Jenis Kasus</th><th>Status</th><th>Deskripsi</th></tr>`;
       tableRowsHtml = (reportData as BukuKasus[]).map((k, idx) => `
-        <tr><td>${idx + 1}</td><td>${k.tanggal}</td><td>${k.namaSiswa}</td><td>${k.kelas}</td><td>${k.jenisKasus}</td><td>${k.status}</td><td>${k.deskripsiKasus}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(k.tanggal)}</td><td>${k.namaSiswa}</td><td>${k.kelas}</td><td>${k.jenisKasus}</td><td>${k.status}</td><td>${k.deskripsiKasus}</td></tr>
       `).join('');
     } else if (selectedModul === 'visit') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal Kunjungan</th><th>Siswa</th><th>Kelas</th><th>Petugas</th><th>Temuan</th><th>Rekomendasi</th></tr>`;
       tableRowsHtml = (reportData as HomeVisit[]).map((v, idx) => `
-        <tr><td>${idx + 1}</td><td>${v.tanggalKunjungan}</td><td>${v.namaSiswa}</td><td>${v.kelas}</td><td>${v.petugas}</td><td>${v.temuan}</td><td>${v.rekomendasi}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(v.tanggalKunjungan)}</td><td>${v.namaSiswa}</td><td>${v.kelas}</td><td>${v.petugas}</td><td>${v.temuan}</td><td>${v.rekomendasi}</td></tr>
       `).join('');
     }
 

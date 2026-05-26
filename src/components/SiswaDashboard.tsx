@@ -4,6 +4,7 @@ import {
   Sparkles, Award, CheckCircle2 
 } from 'lucide-react';
 import { Siswa, LayananBK, AsesmenSiswa, JadwalKonseling, IdentitasSekolah } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface SiswaDashboardProps {
   studentData: Siswa;
@@ -308,7 +309,7 @@ export const SiswaDashboard: React.FC<SiswaDashboardProps> = ({
                       <p className="text-slate-500">Membahas: {j.keterangan || '-'}</p>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="font-bold text-indigo-650 dark:text-indigo-400">{j.tanggal}</p>
+                      <p className="font-bold text-indigo-650 dark:text-indigo-400">{formatTanggalTabel(j.tanggal)}</p>
                       <p className="font-semibold text-slate-500">{j.waktu} WIT</p>
                     </div>
                   </div>
@@ -429,7 +430,7 @@ export const SiswaDashboard: React.FC<SiswaDashboardProps> = ({
                       <span className="font-extrabold text-[10px] text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">
                         {l.jenisLayanan}
                       </span>
-                      <span className="font-mono text-slate-450 text-[10px]">{l.tanggal}</span>
+                      <span className="font-mono text-slate-450 text-[10px]">{formatTanggalTabel(l.tanggal)}</span>
                     </div>
                     <p className="font-bold text-slate-800 dark:text-slate-200">Pokok Bahasan / Jurnal:</p>
                     <p className="text-slate-655 dark:text-slate-350 leading-relaxed font-normal">{l.uraian}</p>
@@ -757,7 +758,7 @@ export const SiswaDashboard: React.FC<SiswaDashboardProps> = ({
                       <span className="font-extrabold text-[10px] text-indigo-650 dark:text-indigo-400 uppercase tracking-wide">
                         {a.jenisAsesmen}
                       </span>
-                      <span className="font-mono text-slate-400 text-[10px]">{a.tanggal}</span>
+                      <span className="font-mono text-slate-400 text-[10px]">{formatTanggalTabel(a.tanggal)}</span>
                     </div>
                     <div className="flex items-start gap-1.5 text-slate-655 dark:text-slate-350">
                       <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
@@ -805,7 +806,7 @@ export const SiswaDashboard: React.FC<SiswaDashboardProps> = ({
                     <p className="text-slate-500 font-normal">Keterangan: {j.keterangan || '-'}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="font-bold text-indigo-650 dark:text-indigo-400">{j.tanggal}</p>
+                    <p className="font-bold text-indigo-650 dark:text-indigo-400">{formatTanggalTabel(j.tanggal)}</p>
                     <p className="text-slate-455 font-semibold">{j.waktu} WIT</p>
                   </div>
                 </div>

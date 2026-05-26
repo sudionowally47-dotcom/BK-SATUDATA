@@ -5,6 +5,7 @@ import {
   ArrowLeft, ArrowRight, Home, Paperclip, FileText, ExternalLink 
 } from 'lucide-react';
 import { HomeVisit, Siswa, IdentitasSekolah, GuruBK } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface HomeVisitProps {
   visit: HomeVisit[];
@@ -165,7 +166,7 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   const handleExportExcel = () => {
     const dataToExport = filteredData.map((v, idx) => ({
       'No.': idx + 1,
-      'Tanggal Kunjungan': v.tanggalKunjungan,
+      'Tanggal Kunjungan': formatTanggalTabel(v.tanggalKunjungan),
       'Nama Siswa': v.namaSiswa,
       'Kelas': v.kelas,
       'Petugas/Guru BK': v.petugas,
@@ -231,7 +232,7 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
               ${filteredData.map((v, idx) => `
                 <tr>
                   <td style="text-align: center;">${idx + 1}</td>
-                  <td>${v.tanggalKunjungan}</td>
+                  <td>${formatTanggalTabel(v.tanggalKunjungan)}</td>
                   <td><b>${v.namaSiswa}</b><br><small>NISN: ${v.nisn}</small></td>
                   <td>${v.kelas}</td>
                   <td>${v.petugas}</td>
@@ -358,7 +359,7 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                   return (
                     <tr key={v.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-6 py-4 text-center font-bold text-slate-400">{no}</td>
-                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{v.tanggalKunjungan}</td>
+                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(v.tanggalKunjungan)}</td>
                       <td className="px-6 py-4">
                         <div className="font-bold text-slate-850 dark:text-slate-205">{v.namaSiswa}</div>
                         <div className="text-[10px] font-mono text-slate-400">NISN: {v.nisn}</div>

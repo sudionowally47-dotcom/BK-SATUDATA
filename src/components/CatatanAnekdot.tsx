@@ -5,6 +5,7 @@ import {
   ArrowLeft, ArrowRight, Edit2
 } from 'lucide-react';
 import { AsesmenSiswa, Siswa, IdentitasSekolah, GuruBK } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface CatatanAnekdotProps {
   asesmen: AsesmenSiswa[];
@@ -172,7 +173,7 @@ export const CatatanAnekdot: React.FC<CatatanAnekdotProps> = ({
       try { d = JSON.parse(a.detailSkor || '{}'); } catch(e) {}
       return {
         'No.': idx + 1,
-        'Tanggal': a.tanggal,
+        'Tanggal': formatTanggalTabel(a.tanggal),
         'NISN': a.nisn,
         'Nama Siswa': a.namaSiswa,
         'Kelas': a.kelas,
@@ -240,7 +241,7 @@ export const CatatanAnekdot: React.FC<CatatanAnekdotProps> = ({
                 return `
                 <tr>
                   <td style="text-align: center;">${idx + 1}</td>
-                  <td>${a.tanggal}</td>
+                  <td>${formatTanggalTabel(a.tanggal)}</td>
                   <td>${a.namaSiswa}<br><small>${a.nisn}</small></td>
                   <td>${a.kelas}</td>
                   <td>${d.lokasi || '-'}</td>
@@ -343,7 +344,7 @@ export const CatatanAnekdot: React.FC<CatatanAnekdotProps> = ({
                   return (
                     <tr key={a.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-4 py-4 text-center font-bold text-slate-400">{no}</td>
-                      <td className="px-4 py-4 font-mono font-bold text-slate-700 dark:text-slate-400 whitespace-nowrap">{a.tanggal}</td>
+                      <td className="px-4 py-4 font-mono font-bold text-slate-700 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(a.tanggal)}</td>
                       <td className="px-4 py-4">
                         <span className="font-bold text-slate-800 dark:text-slate-205">{a.namaSiswa}</span>
                         <div className="text-[10px] font-mono text-slate-400">NISN: {a.nisn}</div>

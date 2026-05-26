@@ -6,6 +6,7 @@ import {
   BarChart3, PieChart, User as UserIcon, Users as UsersIcon, LayoutGrid, TrendingUp
 } from 'lucide-react';
 import { AsesmenSiswa, Siswa, JenisAsesmen, IdentitasSekolah, Kelas, GuruBK } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface AsesmenSiswaProps {
   asesmen: AsesmenSiswa[];
@@ -329,7 +330,7 @@ export const AsesmenSiswaComponent: React.FC<AsesmenSiswaProps> = ({
   const handleExportExcel = () => {
     const dataToExport = filteredData.map((a, idx) => ({
       'No.': idx + 1,
-      'Tanggal': a.tanggal,
+      'Tanggal': formatTanggalTabel(a.tanggal),
       'NISN': a.nisn,
       'Nama Siswa': a.namaSiswa,
       'Kelas': a.kelas,
@@ -390,7 +391,7 @@ export const AsesmenSiswaComponent: React.FC<AsesmenSiswaProps> = ({
               ${filteredData.map((a, idx) => `
                 <tr>
                   <td style="text-align: center;">${idx + 1}</td>
-                  <td>${a.tanggal}</td>
+                  <td>${formatTanggalTabel(a.tanggal)}</td>
                   <td>${a.nisn}</td>
                   <td>${a.namaSiswa}</td>
                   <td>${a.kelas}</td>
@@ -552,7 +553,7 @@ export const AsesmenSiswaComponent: React.FC<AsesmenSiswaProps> = ({
                       return (
                         <tr key={a.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                           <td className="px-4 py-4 text-center font-bold text-slate-400">{no}</td>
-                          <td className="px-4 py-4 font-mono font-bold text-slate-700 dark:text-slate-400 whitespace-nowrap">{a.tanggal}</td>
+                          <td className="px-4 py-4 font-mono font-bold text-slate-700 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(a.tanggal)}</td>
                           <td className="px-4 py-4">
                             <span className="font-bold text-slate-800 dark:text-slate-205">{a.namaSiswa}</span>
                             <div className="text-[10px] font-mono text-slate-400">NISN: {a.nisn}</div>

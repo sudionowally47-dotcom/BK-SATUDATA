@@ -5,6 +5,7 @@ import {
   Clock, CheckCircle, Bell, ArrowLeft, ArrowRight, Printer
 } from 'lucide-react';
 import { JadwalKonseling, Siswa, GuruBK, IdentitasSekolah } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface JadwalKonselingProps {
   jadwal: JadwalKonseling[];
@@ -145,7 +146,7 @@ export const JadwalKonselingComponent: React.FC<JadwalKonselingProps> = ({
   const handleExportExcel = () => {
     const dataToExport = filteredData.map((j, idx) => ({
       'No.': idx + 1,
-      'Tanggal': j.tanggal,
+      'Tanggal': formatTanggalTabel(j.tanggal),
       'Waktu': j.waktu,
       'Siswa': j.namaSiswa,
       'Kelas': j.kelas,
@@ -209,7 +210,7 @@ export const JadwalKonselingComponent: React.FC<JadwalKonselingProps> = ({
               ${filteredData.map((j, idx) => `
                 <tr>
                   <td>${idx + 1}</td>
-                  <td>${j.tanggal}</td>
+                  <td>${formatTanggalTabel(j.tanggal)}</td>
                   <td>${j.waktu}</td>
                   <td>${j.namaSiswa}</td>
                   <td>${j.kelas}</td>
@@ -371,7 +372,7 @@ export const JadwalKonselingComponent: React.FC<JadwalKonselingProps> = ({
                     <tr key={j.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-6 py-4 text-center font-bold text-slate-400">{no}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-bold text-slate-800 dark:text-slate-350">{j.tanggal}</div>
+                        <div className="font-bold text-slate-800 dark:text-slate-350">{formatTanggalTabel(j.tanggal)}</div>
                         <div className="text-[10px] font-semibold text-indigo-650 flex items-center gap-0.5">
                           <Clock className="w-3 h-3" />
                           {j.waktu} WIT

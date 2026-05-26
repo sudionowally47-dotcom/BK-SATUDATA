@@ -5,6 +5,7 @@ import {
   ArrowLeft, ArrowRight, AlertTriangle, Paperclip, FileText, ExternalLink 
 } from 'lucide-react';
 import { BukuKasus, Siswa, IdentitasSekolah, GuruBK } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface BukuKasusProps {
   kasus: BukuKasus[];
@@ -166,7 +167,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   const handleExportExcel = () => {
     const dataToExport = filteredData.map((k, idx) => ({
       'No.': idx + 1,
-      'Tanggal': k.tanggal,
+      'Tanggal': formatTanggalTabel(k.tanggal),
       'Siswa': k.namaSiswa,
       'Kelas': k.kelas,
       'Jenis Kasus': k.jenisKasus,
@@ -230,7 +231,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
               ${filteredData.map((k, idx) => `
                 <tr>
                   <td style="text-align: center;">${idx + 1}</td>
-                  <td>${k.tanggal}</td>
+                  <td>${formatTanggalTabel(k.tanggal)}</td>
                   <td><b>${k.namaSiswa}</b><br><small>NISN: ${k.nisn}</small></td>
                   <td>${k.kelas}</td>
                   <td>${k.jenisKasus}</td>
@@ -381,7 +382,7 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
                   return (
                     <tr key={k.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-6 py-4 text-center font-bold text-slate-400">{no}</td>
-                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{k.tanggal}</td>
+                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(k.tanggal)}</td>
                       <td className="px-6 py-4">
                         <div className="font-bold text-slate-850 dark:text-slate-200">{k.namaSiswa}</div>
                         <div className="text-[10px] font-mono text-slate-400">NISN: {k.nisn}</div>

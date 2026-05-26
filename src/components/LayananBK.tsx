@@ -5,6 +5,7 @@ import {
   ArrowLeft, ArrowRight, BookOpen, Paperclip, FileText, ExternalLink, UserCheck
 } from 'lucide-react';
 import { LayananBK, Siswa, JenisLayanan, IdentitasSekolah, GuruBK, AbsensiItem } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface LayananBKProps {
   layanan: LayananBK[];
@@ -243,7 +244,7 @@ export const LayananBKComponent: React.FC<LayananBKProps> = ({
   const handleExportExcel = () => {
     const dataToExport = filteredData.map((l, idx) => ({
       'No.': idx + 1,
-      'Tanggal': l.tanggal,
+      'Tanggal': formatTanggalTabel(l.tanggal),
       'Jenis Layanan': l.jenisLayanan,
       'NISN': l.nisn,
       'Nama Siswa': l.namaSiswa,
@@ -309,7 +310,7 @@ export const LayananBKComponent: React.FC<LayananBKProps> = ({
               ${filteredData.map((l, idx) => `
                 <tr>
                   <td style="text-align: center;">${idx + 1}</td>
-                  <td>${l.tanggal}</td>
+                  <td>${formatTanggalTabel(l.tanggal)}</td>
                   ${activeTab !== 'Klasikal' ? `<td>${l.jenisLayanan}</td>` : ''}
                   <td>${activeTab === 'Klasikal' ? (l.topik || '-') : l.nisn}</td>
                   <td>${activeTab === 'Klasikal' ? (l.uraian || '-') : l.namaSiswa}</td>
@@ -472,7 +473,7 @@ export const LayananBKComponent: React.FC<LayananBKProps> = ({
                   return (
                     <tr key={l.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-6 py-4 text-center font-bold text-slate-400">{no}</td>
-                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{l.tanggal}</td>
+                      <td className="px-6 py-4 font-mono font-bold text-slate-705 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(l.tanggal)}</td>
                       {activeTab !== 'Klasikal' && (
                         <td className="px-6 py-4">
                           <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-[10px] font-bold text-indigo-700 dark:text-indigo-300">

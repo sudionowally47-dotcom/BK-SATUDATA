@@ -4,6 +4,7 @@ import {
   ArrowLeft, ArrowRight, Eye, Sparkles 
 } from 'lucide-react';
 import { SuratBK, Siswa, JenisSurat, IdentitasSekolah, GuruBK } from '../types';
+import { formatTanggalTabel } from '../utils/db';
 
 interface SuratBKProps {
   surat: SuratBK[];
@@ -381,7 +382,7 @@ export const SuratBKComponent: React.FC<SuratBKProps> = ({
                     <tr key={s.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                       <td className="px-6 py-4 text-center font-bold text-slate-400">{no}</td>
                       <td className="px-6 py-4 font-mono font-bold text-indigo-700 dark:text-indigo-400 whitespace-nowrap">{s.nomorSurat}</td>
-                      <td className="px-6 py-4 font-semibold text-slate-655 dark:text-slate-400 whitespace-nowrap">{s.tanggal}</td>
+                      <td className="px-6 py-4 font-semibold text-slate-655 dark:text-slate-400 whitespace-nowrap">{formatTanggalTabel(s.tanggal)}</td>
                       <td className="px-6 py-4">
                         <span className={`
                           px-2 py-0.5 rounded text-[9px] font-bold uppercase
@@ -667,7 +668,7 @@ export const SuratBKComponent: React.FC<SuratBKProps> = ({
                 )}
 
                 <div className="text-right mb-4">
-                  {identitas.tempatTandaTangan}, {activeSurat.tanggal}
+                  {identitas.tempatTandaTangan}, {formatTanggalTabel(activeSurat.tanggal)}
                 </div>
 
                  {activeSurat.jenisSurat === 'Surat Panggilan Siswa' ? (
