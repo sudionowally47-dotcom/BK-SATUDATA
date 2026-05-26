@@ -37,15 +37,15 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentVisit, setCurrentVisit] = useState<HomeVisit | null>(null);
 
-  // Form states
+  // Form states - initialize dengan nilai default yang aman
   const [formData, setFormData] = useState({
     tanggalKunjungan: new Date().toISOString().split('T')[0],
-    nisn: siswa.length > 0 ? siswa[0].nisn : '',
-    namaSiswa: siswa.length > 0 ? siswa[0].namaSiswa : '',
-    kelas: siswa.length > 0 ? siswa[0].kelas : '',
+    nisn: '',
+    namaSiswa: '',
+    kelas: '',
     petugas: 'Marlina Gewab, S.Psi.',
     tujuanKunjungan: '',
-    alamat: siswa.length > 0 ? siswa[0].alamat : '',
+    alamat: '',
     temuan: '',
     rekomendasi: '',
     dokumentasiNama: '',
@@ -122,17 +122,18 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   };
 
   const handleStudentChange = (nisn: string) => {
-    const s = siswa.find(x => x.nisn === nisn);
+    if (!nisn) return;
+    const s = siswa?.find(x => x.nisn === nisn);
     if (s) {
       console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
       setFormData({
         tanggalKunjungan: formData.tanggalKunjungan,
-        nisn: s.nisn,
-        namaSiswa: s.namaSiswa,
-        kelas: s.kelas,
+        nisn: s.nisn || '',
+        namaSiswa: s.namaSiswa || '',
+        kelas: s.kelas || '',
         petugas: formData.petugas,
         tujuanKunjungan: formData.tujuanKunjungan,
-        alamat: s.alamat,
+        alamat: s.alamat || '',
         temuan: formData.temuan,
         rekomendasi: formData.rekomendasi,
         dokumentasiNama: formData.dokumentasiNama,

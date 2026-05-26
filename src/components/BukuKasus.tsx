@@ -39,12 +39,12 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentKasus, setCurrentKasus] = useState<BukuKasus | null>(null);
 
-  // Form states
+  // Form states - initialize dengan nilai default yang aman
   const [formData, setFormData] = useState({
     tanggal: new Date().toISOString().split('T')[0],
-    nisn: siswa.length > 0 ? siswa[0].nisn : '',
-    namaSiswa: siswa.length > 0 ? siswa[0].namaSiswa : '',
-    kelas: siswa.length > 0 ? siswa[0].kelas : '',
+    nisn: '',
+    namaSiswa: '',
+    kelas: '',
     jenisKasus: 'Kasus Ringan',
     status: 'Dalam Proses' as 'Dalam Proses' | 'Selesai' | 'Dirujuk',
     deskripsiKasus: '',
@@ -106,14 +106,15 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   };
 
   const handleStudentChange = (nisn: string) => {
-    const s = siswa.find(x => x.nisn === nisn);
+    if (!nisn) return;
+    const s = siswa?.find(x => x.nisn === nisn);
     if (s) {
       console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
       setFormData({
         tanggal: formData.tanggal,
-        nisn: s.nisn,
-        namaSiswa: s.namaSiswa,
-        kelas: s.kelas,
+        nisn: s.nisn || '',
+        namaSiswa: s.namaSiswa || '',
+        kelas: s.kelas || '',
         jenisKasus: formData.jenisKasus,
         status: formData.status,
         deskripsiKasus: formData.deskripsiKasus,
