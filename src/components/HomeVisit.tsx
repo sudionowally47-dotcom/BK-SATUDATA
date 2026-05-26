@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { 
   Plus, Search, Edit2, Trash2, Download, Printer, 
@@ -51,6 +51,20 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
     dokumentasiNama: '',
     dokumentasiUrl: ''
   });
+
+  // Update form ketika modal dibuka
+  useEffect(() => {
+    if (isAddModalOpen && siswa.length > 0 && !formData.nisn) {
+      const firstStudent = siswa[0];
+      setFormData(prev => ({
+        ...prev,
+        nisn: firstStudent.nisn,
+        namaSiswa: firstStudent.namaSiswa,
+        kelas: firstStudent.kelas,
+        alamat: firstStudent.alamat
+      }));
+    }
+  }, [isAddModalOpen, siswa]);
 
   const handleSimulateUpload = () => {
     const photos = [
@@ -122,22 +136,15 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   };
 
   const handleStudentChange = (nisn: string) => {
-    if (!nisn) return;
     const s = siswa.find(x => x.nisn === nisn);
     if (s) {
-      setFormData({
-        tanggalKunjungan: formData.tanggalKunjungan,
+      setFormData(prev => ({
+        ...prev,
         nisn: s.nisn,
         namaSiswa: s.namaSiswa,
         kelas: s.kelas,
-        petugas: formData.petugas,
-        tujuanKunjungan: formData.tujuanKunjungan,
-        alamat: s.alamat,
-        temuan: formData.temuan,
-        rekomendasi: formData.rekomendasi,
-        dokumentasiNama: formData.dokumentasiNama,
-        dokumentasiUrl: formData.dokumentasiUrl
-      });
+        alamat: s.alamat
+      }));
     }
   };
 
@@ -478,14 +485,13 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
                 <div>
                   <label className="block text-xs font-bold text-slate-455 dark:text-slate-405 uppercase tracking-wider mb-1.5">Pilih Siswa*</label>
                   <select 
-                    key={`select-${formData.nisn}`}
                     value={formData.nisn}
                     onChange={(e) => handleStudentChange(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
                     required
                   >
                     <option value="">-- Pilih Siswa --</option>
-                    {siswa && siswa.map(s => (
+                    {siswa.map(s => (
                       <option key={s.nisn} value={s.nisn}>{s.namaSiswa} - {s.kelas}</option>
                     ))}
                   </select>
