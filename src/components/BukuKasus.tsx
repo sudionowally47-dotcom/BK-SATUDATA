@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { 
   Plus, Search, Edit2, Trash2, Download, Printer, 
@@ -42,9 +42,9 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   // Form states
   const [formData, setFormData] = useState({
     tanggal: new Date().toISOString().split('T')[0],
-    nisn: '',
-    namaSiswa: '',
-    kelas: '',
+    nisn: siswa.length > 0 ? siswa[0].nisn : '',
+    namaSiswa: siswa.length > 0 ? siswa[0].namaSiswa : '',
+    kelas: siswa.length > 0 ? siswa[0].kelas : '',
     jenisKasus: 'Kasus Ringan',
     status: 'Dalam Proses' as 'Dalam Proses' | 'Selesai' | 'Dirujuk',
     deskripsiKasus: '',
@@ -52,19 +52,6 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
     buktiNama: '',
     buktiUrl: ''
   });
-
-  // Update form ketika modal dibuka
-  useEffect(() => {
-    if (isAddModalOpen && siswa.length > 0 && !formData.nisn) {
-      const firstStudent = siswa[0];
-      setFormData(prev => ({
-        ...prev,
-        nisn: firstStudent.nisn,
-        namaSiswa: firstStudent.namaSiswa,
-        kelas: firstStudent.kelas
-      }));
-    }
-  }, [isAddModalOpen, siswa]);
 
   const filteredData = kasus.filter(k => {
     const matchesSearch = 
@@ -121,12 +108,19 @@ export const BukuKasusComponent: React.FC<BukuKasusProps> = ({
   const handleStudentChange = (nisn: string) => {
     const s = siswa.find(x => x.nisn === nisn);
     if (s) {
-      setFormData(prev => ({
-        ...prev,
+      console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
+      setFormData({
+        tanggal: formData.tanggal,
         nisn: s.nisn,
         namaSiswa: s.namaSiswa,
-        kelas: s.kelas
-      }));
+        kelas: s.kelas,
+        jenisKasus: formData.jenisKasus,
+        status: formData.status,
+        deskripsiKasus: formData.deskripsiKasus,
+        tindakLanjut: formData.tindakLanjut,
+        buktiNama: formData.buktiNama,
+        buktiUrl: formData.buktiUrl
+      });
     }
   };
 

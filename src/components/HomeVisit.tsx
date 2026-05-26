@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { 
   Plus, Search, Edit2, Trash2, Download, Printer, 
@@ -40,31 +40,17 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   // Form states
   const [formData, setFormData] = useState({
     tanggalKunjungan: new Date().toISOString().split('T')[0],
-    nisn: '',
-    namaSiswa: '',
-    kelas: '',
+    nisn: siswa.length > 0 ? siswa[0].nisn : '',
+    namaSiswa: siswa.length > 0 ? siswa[0].namaSiswa : '',
+    kelas: siswa.length > 0 ? siswa[0].kelas : '',
     petugas: 'Marlina Gewab, S.Psi.',
     tujuanKunjungan: '',
-    alamat: '',
+    alamat: siswa.length > 0 ? siswa[0].alamat : '',
     temuan: '',
     rekomendasi: '',
     dokumentasiNama: '',
     dokumentasiUrl: ''
   });
-
-  // Update form ketika modal dibuka
-  useEffect(() => {
-    if (isAddModalOpen && siswa.length > 0 && !formData.nisn) {
-      const firstStudent = siswa[0];
-      setFormData(prev => ({
-        ...prev,
-        nisn: firstStudent.nisn,
-        namaSiswa: firstStudent.namaSiswa,
-        kelas: firstStudent.kelas,
-        alamat: firstStudent.alamat
-      }));
-    }
-  }, [isAddModalOpen, siswa]);
 
   const handleSimulateUpload = () => {
     const photos = [
@@ -138,13 +124,20 @@ export const HomeVisitComponent: React.FC<HomeVisitProps> = ({
   const handleStudentChange = (nisn: string) => {
     const s = siswa.find(x => x.nisn === nisn);
     if (s) {
-      setFormData(prev => ({
-        ...prev,
+      console.log("Changing to student:", s.namaSiswa, "NISN:", s.nisn);
+      setFormData({
+        tanggalKunjungan: formData.tanggalKunjungan,
         nisn: s.nisn,
         namaSiswa: s.namaSiswa,
         kelas: s.kelas,
-        alamat: s.alamat
-      }));
+        petugas: formData.petugas,
+        tujuanKunjungan: formData.tujuanKunjungan,
+        alamat: s.alamat,
+        temuan: formData.temuan,
+        rekomendasi: formData.rekomendasi,
+        dokumentasiNama: formData.dokumentasiNama,
+        dokumentasiUrl: formData.dokumentasiUrl
+      });
     }
   };
 
