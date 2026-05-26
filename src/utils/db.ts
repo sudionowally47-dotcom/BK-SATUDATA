@@ -5,13 +5,16 @@ import {
 
 const FIXED_GAS_URL = "https://script.google.com/macros/s/AKfycbz5iPV79vJ7efuwJcUqGp97lmUJPPZXe7EmzmB7cuv9ioa68mDlCof5QSf1hOTP77Nr/exec";
 
+/**
+ * Format tanggal ke format Indonesia tanpa nama hari
+ * Contoh: 24 Mei 2026
+ */
 function formatTanggalIndonesia(date?: Date | string): string {
   const now = date ? new Date(date) : new Date();
-  const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][now.getDay()];
   const tanggal = now.getDate();
   const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][now.getMonth()];
   const tahun = now.getFullYear();
-  return `${hari}, ${tanggal} ${bulan} ${tahun}`;
+  return `${tanggal} ${bulan} ${tahun}`;
 }
 
 const DEFAULT_IDENTITAS: IdentitasSekolah = {
@@ -379,7 +382,7 @@ export const DB = {
       siswa: ['Siswa'],
       guru: ['GuruBK'],
       kelas: ['Kelas'],
-      layanan: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif'],
+      layanan: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok'],
       asesmen: ['Asesmen_Catatan_Anekdot', 'Asesmen_Daftar_Cek_Masalah', 'Asesmen_Tes_Gaya_Belajar', 'Asesmen_Tes_Minat_Bakat'],
       surat: ['Surat_Panggilan', 'Surat_Pernyataan', 'Surat_Keterangan'],
       jadwal: ['Jadwal_Konseling'],
@@ -417,7 +420,7 @@ export const DB = {
     const groups = [
       {
         key: 'layanan',
-        sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok', 'Layanan_Penguasaan_Konten', 'Layanan_Responsif']
+        sheets: ['Layanan_Klasikal', 'Layanan_Bimbingan_Belajar', 'Layanan_Bimbingan_Pribadi', 'Layanan_Bimbingan_Sosial', 'Layanan_Bimbingan_Karier', 'Layanan_Konseling_Individual', 'Layanan_Konseling_Kelompok']
       },
       {
         key: 'asesmen',
