@@ -147,15 +147,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* KPI Stats Widget */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {[
-          { title: 'Total Siswa', value: totalSiswa, icon: Users, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/30', border: 'border-indigo-100 dark:border-indigo-900/50', tab: 'siswa' },
-          { title: 'Layanan BK', value: totalLayanan, icon: BookOpen, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-100 dark:border-emerald-900/50', tab: 'layanan' },
-          { title: 'Kasus Siswa', value: totalKasus, icon: AlertTriangle, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-950/30', border: 'border-rose-100 dark:border-rose-900/50', tab: 'kasus' },
-          { title: 'Jadwal Konseling', value: totalJadwal, icon: CalendarIcon, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30', border: 'border-amber-100 dark:border-amber-900/50', tab: 'jadwal' }
+          { title: 'Total Siswa', value: totalSiswa, icon: Users, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/30', border: 'border-indigo-100 dark:border-indigo-900', tab: 'siswa' },
+          { title: 'Layanan BK', value: totalLayanan, icon: BookOpen, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-100 dark:border-emerald-900', tab: 'layanan' },
+          { title: 'Kasus Siswa', value: totalKasus, icon: AlertTriangle, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-950/30', border: 'border-rose-100 dark:border-rose-900', tab: 'kasus' },
+          { title: 'Jadwal Konseling', value: totalJadwal, icon: CalendarIcon, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30', border: 'border-amber-100 dark:border-amber-900', tab: 'jadwal' },
         ].map((stat, i) => (
           <div 
             key={i} 
             onClick={() => setCurrentTab(stat.tab)}
-            className={`cursor-pointer group flex items-center justify-between p-6 bg-white dark:bg-slate-900 border ${stat.border} rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5`}
+            className={`cursor-pointer group flex items-center justify-between p-6 bg-white dark:bg-slate-900 border ${stat.border} rounded-2xl shadow-sm hover:shadow-md transition-all duration-300`}
           >
             <div className="space-y-1">
               <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
