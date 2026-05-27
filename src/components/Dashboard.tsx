@@ -22,10 +22,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   setCurrentTab,
   identitas
 }) => {
-  // Date State for Calendar
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Calculations
   const totalSiswa = siswa.length;
   const totalLayanan = layanan.length;
   const totalKasus = kasus.length;
@@ -35,7 +33,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const kasusProses = kasus.filter(k => k.status === 'Dalam Proses').length;
   const kasusRujuk = kasus.filter(k => k.status === 'Dirujuk').length;
 
-  // Layanan BK Categories count
   const layananCount = layanan.reduce((acc, curr) => {
     acc[curr.jenisLayanan] = (acc[curr.jenisLayanan] || 0) + 1;
     return acc;
@@ -47,7 +44,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
     'Konseling Individual', 'Konseling Kelompok'
   ];
 
-  // Activities Log
   const activities = [
     ...layanan.map(l => ({
       type: 'layanan',
@@ -72,7 +68,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }))
   ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5);
 
-  // Calendar Helper functions
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -82,7 +77,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const getFirstDayOfMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
-    return new Date(year, month, 1).getDay(); // 0 is Sunday, 1 is Monday...
+    return new Date(year, month, 1).getDay();
   };
 
   const prevMonth = () => {
@@ -94,16 +89,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   const monthsIndo = [
-    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
 
   const daysInMonth = getDaysInMonth(currentDate);
   const firstDay = getFirstDayOfMonth(currentDate);
 
-  // Pad first day offset
   const calendarDays = [];
-  // For Indonesian style: start with Sunday or Monday. Let's use Sunday (0) to Saturday (6).
   for (let i = 0; i < firstDay; i++) {
     calendarDays.push(null);
   }
@@ -111,7 +104,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
     calendarDays.push(i);
   }
 
-  // Get schedules for a specific calendar date
   const getSchedulesForDate = (dayNum: number) => {
     const yyyy = currentDate.getFullYear();
     const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -120,13 +112,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
     return jadwal.filter(j => j.tanggal === dateStr);
   };
 
-  // Selected Day Details
   const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
   const selectedDaySchedules = selectedDay ? getSchedulesForDate(selectedDay) : [];
 
+  const statsData = [
+    { title: 'Total Siswa', value: totalSiswa, icon: Users, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/30', border: 'border-indigo-100 dark:border-indigo-900', tab: 'siswa' },
+    { title: 'Layanan BK', value: totalLayanan, icon: BookOpen, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-100 dark:border-emerald-900', tab: 'layanan' },
+    { title: 'Kasus Siswa', value: totalKasus, icon: AlertTriangle, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-950/30', border: 'border-rose-100 dark:border-rose-900', tab: 'kasus' },
+    { title: 'Jadwal Konseling', value: totalJadwal, icon: CalendarIcon, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30', border: 'border-amber-100 dark:border-amber-900', tab: 'jadwal' },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Top Welcome Card */}
       <div className="relative overflow-hidden bg-gradient-to-r from-indigo-700 to-violet-800 text-white rounded-3xl p-6 md:p-8 shadow-xl shadow-indigo-700/10">
         <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 opacity-10">
           <BookOpen className="w-96 h-96" />
@@ -144,14 +141,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* KPI Stats Widget */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {[
-          { title: 'Total Siswa', value: totalSiswa, icon: Users, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/30', border: 'border-indigo-100 dark:border-indigo-900', tab: 'siswa' },
-          { title: 'Layanan BK', value: totalLayanan, icon: BookOpen, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-100 dark:border-emerald-900', tab: 'layanan' },
-          { title: 'Kasus Siswa', value: totalKasus, icon: AlertTriangle, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-950/30', border: 'border-rose-100 dark:border-rose-900', tab: 'kasus' },
-          { title: 'Jadwal Konseling', value: totalJadwal, icon: CalendarIcon, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30', border: 'border-amber-100 dark:border-amber-900', tab: 'jadwal' },
-        ].map((stat, i) => (
+        {statsData.map((stat, i) => (
           <div 
             key={i} 
             onClick={() => setCurrentTab(stat.tab)}
@@ -172,9 +163,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         ))}
       </div>
 
-      {/* Main Charts & Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* SVG Service Type Bar Chart */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -188,7 +177,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <TrendingUp className="w-5 h-5 text-indigo-500" />
           </div>
 
-          {/* SVG Bar Chart Container */}
           <div className="space-y-4 py-2">
             {serviceCategories.map((cat) => {
               const val = layananCount[cat] || 0;
@@ -212,7 +200,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </div>
 
-        {/* Donut Chart representing Case Statuses */}
         <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="mb-6">
             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
@@ -223,7 +210,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
           </div>
 
-          {/* Donut SVG */}
           <div className="flex-1 flex flex-col justify-center items-center">
             {totalKasus === 0 ? (
               <div className="text-center py-8 text-slate-400">
@@ -234,10 +220,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <>
                 <div className="relative w-44 h-44 flex items-center justify-center">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                    {/* Background Circle */}
                     <circle cx="18" cy="18" r="15.915" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-100 dark:text-slate-800" />
                     
-                    {/* Selesai Segments */}
                     {(() => {
                       const selPct = (kasusSelesai / totalKasus) * 100;
                       const prosPct = (kasusProses / totalKasus) * 100;
@@ -249,17 +233,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       
                       return (
                         <>
-                          {/* Selesai (Emerald) */}
                           <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10B981" strokeWidth="3.5" 
                             strokeDasharray={`${selPct} ${100 - selPct}`} 
                             strokeDashoffset={-selOffset} 
                           />
-                          {/* Dalam Proses (Amber) */}
                           <circle cx="18" cy="18" r="15.915" fill="none" stroke="#F59E0B" strokeWidth="3.5" 
                             strokeDasharray={`${prosPct} ${100 - prosPct}`} 
                             strokeDashoffset={-prosOffset} 
                           />
-                          {/* Dirujuk (Rose) */}
                           <circle cx="18" cy="18" r="15.915" fill="none" stroke="#EF4444" strokeWidth="3.5" 
                             strokeDasharray={`${rujPct} ${100 - rujPct}`} 
                             strokeDashoffset={-rujOffset} 
@@ -268,14 +249,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       );
                     })()}
                   </svg>
-                  {/* Absolute Center Text */}
                   <div className="absolute text-center">
                     <span className="text-3xl font-extrabold text-slate-800 dark:text-slate-100">{totalKasus}</span>
                     <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">Kasus</span>
                   </div>
                 </div>
 
-                {/* Donut Legend */}
                 <div className="grid grid-cols-3 gap-2 mt-6 w-full text-center">
                   <div className="space-y-0.5">
                     <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1" />
@@ -299,9 +278,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Activities & School Calendar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activities Log */}
         <div className="lg:col-span-1 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center space-x-2 mb-6">
             <Clock className="w-5 h-5 text-indigo-500" />
@@ -336,7 +313,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </div>
 
-        {/* Activity & Counseling Calendar */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div className="flex items-center space-x-2">
@@ -346,7 +322,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </h2>
             </div>
             
-            {/* Prev/Next Navigation */}
             <div className="flex items-center space-x-2 self-start sm:self-center">
               <button 
                 onClick={prevMonth} 
@@ -367,9 +342,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Calendar Sheet */}
             <div className="md:col-span-2">
-              {/* Day Headers */}
               <div className="grid grid-cols-7 text-center text-xs font-semibold text-slate-400 dark:text-slate-500 pb-2">
                 <div>Min</div>
                 <div>Sen</div>
@@ -380,7 +353,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <div>Sab</div>
               </div>
 
-              {/* Day Numbers Grid */}
               <div className="grid grid-cols-7 gap-1">
                 {calendarDays.map((day, idx) => {
                   if (day === null) {
@@ -415,7 +387,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
             </div>
 
-            {/* Selected Date Schedules Detail Column */}
             <div className="md:col-span-1 border-t md:border-t-0 md:border-l border-slate-105 dark:border-slate-800 md:pl-6 pt-4 md:pt-0">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                 Jadwal Tanggal {selectedDay} {monthsIndo[currentDate.getMonth()]}
