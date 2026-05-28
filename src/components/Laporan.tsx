@@ -148,7 +148,7 @@ export const Laporan: React.FC<LaporanProps> = ({
     } else if (selectedModul === 'jadwal') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Waktu</th><th>Siswa</th><th>Kelas</th><th>Guru BK</th><th>Tipe</th><th>Status</th></tr>`;
       tableRowsHtml = (reportData as JadwalKonseling[]).map((j, idx) => `
-        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(j.tanggal)}</td><td>${j.waktu}</td><td>${j.namaSiswa}</td><td>${j.kelas}</td><td>${j.namaGuru}</td><td>${j.tipeKonseling}</td><td>${j.statusKehadiran}</td></tr>
+        <tr><td>${idx + 1}</td><td>${formatTanggalTabel(j.tanggal || '')}</td><td>${j.waktu || '-'}</td><td>${j.namaSiswa || '-'}</td><td>${j.kelas || '-'}</td><td>${j.namaGuru || '-'}</td><td>${j.tipeKonseling || '-'}</td><td>${j.status || '-'}</td></tr>
       `).join('');
     } else if (selectedModul === 'kasus') {
       tableHeadersHtml = `<tr><th>No</th><th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th><th>Jenis Kasus</th><th>Status</th><th>Deskripsi</th></tr>`;
@@ -247,7 +247,7 @@ export const Laporan: React.FC<LaporanProps> = ({
         <div className="flex flex-wrap gap-2.5">
           <button 
             onClick={() => { triggerNotification("Untuk mencatat berkas baru, silakan gunakan tombol Tambah pada sub-tab Data Siswa, Jurnal Layanan, Asesmen, atau Buku Kasus di sidebar.", "success"); }}
-            className="flex items-center gap-2 px-5 py-2.5 text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-600/20 ring-2 ring-indigo-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-600/20 ring-2 ring-indigo-500/20 transition-all cursor-pointer"
           >
             <Plus className="w-4.5 h-4.5 stroke-[3]" />
             Catat Berkas Baru
@@ -264,7 +264,7 @@ export const Laporan: React.FC<LaporanProps> = ({
             <select
               value={selectedModul}
               onChange={(e) => setSelectedModul(e.target.value)}
-              className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-705 dark:text-slate-350"
+              className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-300"
             >
               {modules.map(m => (
                 <option key={m.value} value={m.value}>{m.label}</option>
@@ -281,7 +281,7 @@ export const Laporan: React.FC<LaporanProps> = ({
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-850 dark:text-slate-200"
+                className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-300"
               />
             </div>
           </div>
@@ -295,7 +295,7 @@ export const Laporan: React.FC<LaporanProps> = ({
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-850 dark:text-slate-200"
+                className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-300"
               />
             </div>
           </div>
@@ -305,7 +305,7 @@ export const Laporan: React.FC<LaporanProps> = ({
         <div className="flex flex-wrap gap-2.5 pt-2 border-t border-slate-50 dark:border-slate-800/80 justify-end">
           <button
             onClick={handleExportExcel}
-            className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-55/10 cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer"
           >
             <Download className="w-4 h-4" />
             Ekspor Rekap Excel
